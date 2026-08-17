@@ -1,0 +1,40 @@
+"use client";
+
+import Image from "next/image";
+
+export default function BusServiceLogo() {
+  return (
+    <div className="relative z-10 my-auto flex flex-col items-center justify-center text-center select-none pointer-events-none px-4 py-1">
+      {/* Decorative Top Flourish */}
+      <div className="flex items-center gap-2 text-white/80 text-[10px] sm:text-[11px] font-semibold tracking-widest uppercase mb-1 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
+        <span className="h-[1px] w-6 sm:w-10 bg-gradient-to-r from-transparent to-white/60" />
+        <span className="text-white/90 tracking-[0.25em] drop-shadow-[0_0_10px_rgba(255,255,255,0.7)]">
+          ★ ऑल इण्डिया टूरिस्ट परमिट ★
+        </span>
+        <span className="h-[1px] w-6 sm:w-10 bg-gradient-to-l from-transparent to-white/60" />
+      </div>
+
+      {/* Main Hindi Logo in AMS Manthan Style — Pure White */}
+      <div className="relative flex items-center justify-center py-1">
+        <Image
+          src="/bhanu-pratap-manthan-white.png"
+          alt="भानु प्रताप बस सर्विस - Bhanu Pratap Bus Service"
+          width={420}
+          height={174}
+          priority
+          className="h-auto w-56 sm:w-72 md:w-84 max-w-[85vw] object-contain drop-shadow-[0_4px_16px_rgba(0,0,0,0.95)] filter drop-shadow-[0_0_20px_rgba(255,255,255,0.4)] transition-all duration-700 hover:scale-[1.02]"
+        />
+      </div>
+
+      {/* Subtitle / Bus Branding */}
+      <div className="mt-1 flex items-center gap-2">
+        <span className="h-[1px] w-4 bg-white/30" />
+        <p className="text-[10px] sm:text-[11.5px] font-bold tracking-[0.3em] uppercase text-white/85 drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)]">
+          BHANU PRATAP BUS SERVICE
+        </p>
+        <span className="h-[1px] w-4 bg-white/30" />
+      </div>
+    </div>
+  );
+}
+

@@ -1,0 +1,237 @@
+@import "tailwindcss";
+
+@theme {
+
+  /* Warm accent derived from the truck's headlights / dashboard glow */
+  --color-accent: #e0a458;
+  --color-accent-dim: #b8823f;
+  --color-accent-glow: #f2c07a;
+
+  --color-ink: #0c0a08;
+  --color-cream: #f4ead9;
+
+  --font-hindi: "Yatra One", "Rozha One", "Kalam", serif;
+  --font-display: "Kalam", "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+
+  --shadow-glass:
+    0 20px 60px -15px rgba(0, 0, 0, 0.65),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+
+  --animate-spin-slow: spin 8s linear infinite;
+  --animate-blink: blink 1s step-start infinite;
+  --animate-honk-pop: honk-pop 0.6s ease-out forwards;
+  --animate-press: press 0.22s ease-out;
+}
+
+:root,
+[data-vibe="nightDrive"] {
+  --color-accent: #e0a458;
+  --color-accent-dim: #b8823f;
+  --color-accent-glow: #f2c07a;
+  --color-vibe-glow: rgba(224, 164, 88, 0.28);
+  --color-vibe-bg: #05070a;
+  --video-filter: contrast(1.08) saturate(1.12) brightness(1.0);
+}
+
+[data-vibe="oldMemories"] {
+  --color-accent: #f59e0b;
+  --color-accent-dim: #b45309;
+  --color-accent-glow: #fbbf24;
+  --color-vibe-glow: rgba(245, 158, 11, 0.32);
+  --color-vibe-bg: #0c0804;
+  --video-filter: sepia(0.42) contrast(1.06) saturate(0.92) brightness(0.96);
+}
+
+[data-vibe="lateNight"] {
+  --color-accent: #60a5fa;
+  --color-accent-dim: #2563eb;
+  --color-accent-glow: #93c5fd;
+  --color-vibe-glow: rgba(96, 165, 250, 0.32);
+  --color-vibe-bg: #030712;
+  --video-filter: hue-rotate(205deg) contrast(1.15) brightness(0.9) saturate(1.25);
+}
+
+html,
+body {
+  height: 100%;
+  background: var(--color-vibe-bg, #05070a);
+  transition: background-color 0.8s ease-in-out;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--color-cream);
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
+}
+
+/* ---------------------------------------------------------- */
+/* Background video layer                                     */
+/* ---------------------------------------------------------- */
+
+.hero-bg-video {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 0;
+  pointer-events: none;
+  filter: var(--video-filter);
+  transition: filter 0.8s ease-in-out;
+}
+
+/* ---------------------------------------------------------- */
+/* Grain overlay                                               */
+/* ---------------------------------------------------------- */
+
+.grain-overlay {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  mix-blend-mode: overlay;
+  opacity: 0.3;
+  transition: opacity 0.8s ease;
+}
+
+[data-vibe="oldMemories"] .grain-overlay {
+  opacity: 0.45;
+}
+
+[data-vibe="lateNight"] .grain-overlay {
+  opacity: 0.22;
+}
+
+
+/* ---------------------------------------------------------- */
+/* Glass material                                              */
+/* ---------------------------------------------------------- */
+
+.glass {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background-image: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.12),
+    rgba(255, 255, 255, 0.055) 45%,
+    rgba(255, 255, 255, 0.025)
+  );
+  backdrop-filter: blur(40px) saturate(1.8);
+  -webkit-backdrop-filter: blur(40px) saturate(1.8);
+  box-shadow: var(--shadow-glass);
+}
+
+.glass-edge {
+  position: relative;
+}
+
+.glass-edge::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.35),
+    rgba(255, 255, 255, 0) 30%
+  );
+  opacity: 0.5;
+  mix-blend-mode: overlay;
+}
+
+/* ---------------------------------------------------------- */
+/* Keyframes                                                    */
+/* ---------------------------------------------------------- */
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes honk-pop {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 4px) scale(0.85);
+  }
+  20% {
+    opacity: 1;
+    transform: translate(-50%, -2px) scale(1);
+  }
+  75% {
+    opacity: 1;
+    transform: translate(-50%, -10px) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -18px) scale(0.95);
+  }
+}
+
+@keyframes press {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(0.94);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.blink-colon {
+  animation: var(--animate-blink);
+}
+
+.vinyl-spin {
+  animation: var(--animate-spin-slow);
+  animation-play-state: paused;
+}
+
+.vinyl-spin[data-playing="true"] {
+  animation-play-state: running;
+}
+
+/* ---------------------------------------------------------- */
+/* Seek bar                                                     */
+/* ---------------------------------------------------------- */
+
+.seek-hit {
+  touch-action: none;
+}
+
+.seek-knob {
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.seek-hit:hover .seek-knob,
+.seek-hit[data-dragging="true"] .seek-knob {
+  opacity: 1;
+}
+
+/* ---------------------------------------------------------- */
+/* Safe area helpers                                            */
+/* ---------------------------------------------------------- */
+
+.safe-top {
+  top: max(1rem, env(safe-area-inset-top));
+}
+.safe-bottom {
+  bottom: max(1rem, env(safe-area-inset-bottom));
+}
+.safe-left {
+  left: max(1rem, env(safe-area-inset-left));
+}
+.safe-right {
+  right: max(1rem, env(safe-area-inset-right));
+}
+
+/* Scrollbar-less, focus-visible states for accessibility */
+:focus-visible {
+  outline: 2px solid var(--color-accent-glow);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
