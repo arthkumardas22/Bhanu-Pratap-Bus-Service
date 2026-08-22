@@ -36,7 +36,11 @@ export default function SeekBar({
 
   const handlePointerDown = useCallback(
     (e: React.PointerEvent<HTMLDivElement>) => {
-      (e.target as HTMLElement).setPointerCapture(e.pointerId);
+      try {
+        (e.target as HTMLElement).setPointerCapture(e.pointerId);
+      } catch {
+        // Fallback for non-supporting browsers
+      }
       setDragging(true);
       const ratio = ratioFromClientX(e.clientX);
       setDragRatio(ratio);
@@ -63,6 +67,11 @@ export default function SeekBar({
     [dragging, ratioFromClientX, commit]
   );
 
+  const handlePointerCancel = useCallback(() => {
+    setDragging(false);
+    setDragRatio(null);
+  }, []);
+
   const playedRatio =
     dragging && dragRatio !== null
       ? dragRatio
@@ -75,29 +84,34 @@ export default function SeekBar({
     <div
       ref={trackRef}
       role="slider"
-      aria-label="Seek"
+      aria-label="Seek track position"
       aria-valuemin={0}
       aria-valuemax={Math.round(duration)}
       aria-valuenow={Math.round(currentTime)}
       tabIndex={0}
       data-dragging={dragging}
-      className={`seek-hit touch-none relative flex h-6 w-full cursor-pointer items-center ${className}`}
+      className={`seek-hit touch-none relative flex h-7 sm:h-6 w-full cursor-pointer items-center select-none ${className}`}
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
       onPointerUp={handlePointerUp}
+      onPointerCancel={handlePointerCancel}
       onKeyDown={(e) => {
         if (!duration) return;
         if (e.key === "ArrowRight") commit(Math.min(1, playedRatio + 0.02));
         if (e.key === "ArrowLeft") commit(Math.max(0, playedRatio - 0.02));
       }}
     >
-      <div className="relative h-[3px] w-full overflow-visible rounded-full bg-white/15">
+      <div className="relative h-[3.5px] sm:h-[3px] w-full overflow-visible rounded-full bg-white/15">
+        {/* Progress Fill */}
         <div
-          className="absolute inset-y-0 left-0 rounded-full bg-accent shadow-[0_0_10px_2px_rgba(224,164,88,0.55)]"
+          className="absolute inset-y-0 left-0 rounded-full bg-accent shadow-[0_0_10px_2px_rgba(224,164,88,0.55)] transition-[width] duration-75"
           style={{ width: playedPct }}
         />
+        {/* Knob Indicator */}
         <div
-          className="seek-knob absolute top-1/2 h-3 w-3 -translate-y-1/2 -translate-x-1/2 rounded-full bg-accent-glow shadow-[0_0_6px_rgba(242,192,122,0.9)]"
+          className={`seek-knob absolute top-1/2 -translate-y-1/2 -translate-x-1/2 rounded-full bg-accent-glow shadow-[0_0_8px_rgba(242,192,122,0.95)] ${
+            dragging ? "h-4 w-4 scale-110 opacity-100 ring-2 ring-white/60" : "h-3.5 w-3.5 sm:h-3 sm:w-3"
+          }`}
           style={{ left: playedPct }}
         />
       </div>

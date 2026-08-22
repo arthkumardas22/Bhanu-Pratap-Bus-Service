@@ -56,15 +56,25 @@
 html,
 body {
   height: 100%;
+  min-height: 100dvh;
   background: var(--color-vibe-bg, #05070a);
   transition: background-color 0.8s ease-in-out;
+  touch-action: manipulation;
 }
 
 body {
   font-family: var(--font-body);
   color: var(--color-cream);
   -webkit-tap-highlight-color: transparent;
-  overscroll-behavior: none;
+  -webkit-touch-callout: none;
+  overscroll-behavior-y: none;
+  overflow-x: hidden;
+}
+
+button, a, input, [role="button"], [role="tab"], [role="slider"] {
+  -webkit-user-select: none;
+  user-select: none;
+  touch-action: manipulation;
 }
 
 /* ---------------------------------------------------------- */
@@ -188,6 +198,9 @@ body {
 .vinyl-spin {
   animation: var(--animate-spin-slow);
   animation-play-state: paused;
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .vinyl-spin[data-playing="true"] {
@@ -200,15 +213,17 @@ body {
 
 .seek-hit {
   touch-action: none;
+  -webkit-touch-callout: none;
 }
 
 .seek-knob {
   opacity: 0;
-  transition: opacity 0.15s ease;
+  transition: opacity 0.15s ease, transform 0.15s ease;
 }
 
 .seek-hit:hover .seek-knob,
-.seek-hit[data-dragging="true"] .seek-knob {
+.seek-hit[data-dragging="true"] .seek-knob,
+.seek-hit:active .seek-knob {
   opacity: 1;
 }
 
@@ -217,16 +232,16 @@ body {
 /* ---------------------------------------------------------- */
 
 .safe-top {
-  top: max(1rem, env(safe-area-inset-top));
+  top: max(0.75rem, env(safe-area-inset-top, 0.75rem));
 }
 .safe-bottom {
-  bottom: max(1rem, env(safe-area-inset-bottom));
+  bottom: max(0.75rem, env(safe-area-inset-bottom, 0.75rem));
 }
 .safe-left {
-  left: max(1rem, env(safe-area-inset-left));
+  left: max(0.75rem, env(safe-area-inset-left, 0.75rem));
 }
 .safe-right {
-  right: max(1rem, env(safe-area-inset-right));
+  right: max(0.75rem, env(safe-area-inset-right, 0.75rem));
 }
 
 /* Scrollbar-less, focus-visible states for accessibility */

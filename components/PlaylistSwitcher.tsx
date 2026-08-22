@@ -29,14 +29,14 @@ export default function PlaylistSwitcher({
             aria-selected={isActive}
             onClick={() => onSelect(p.key)}
             title={p.tagline}
-            className={`flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[12px] font-medium tracking-wide transition-all duration-300 ${
+            className={`flex items-center gap-1 sm:gap-1.5 rounded-full px-2.5 sm:px-3.5 py-1 sm:py-1.5 text-[11px] sm:text-[12px] font-medium tracking-wide transition-all duration-300 active:scale-95 ${
               isActive
                 ? "bg-accent/25 text-accent-glow ring-1.5 ring-accent/60 shadow-[0_0_16px_var(--color-vibe-glow)] scale-[1.02]"
                 : "text-white/60 hover:text-white/95 hover:bg-white/5"
             }`}
           >
-            <span className="text-sm">{p.icon}</span>
-            <span>{p.label}</span>
+            <span className="text-xs sm:text-sm">{p.icon}</span>
+            <span className="truncate">{p.label}</span>
           </button>
         );
       })}

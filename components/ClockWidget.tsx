@@ -33,13 +33,13 @@ export default function ClockWidget() {
 
   return (
     <div
-      className="flex items-baseline gap-1 text-[13px] tabular-nums text-cream/85"
+      className="flex items-baseline gap-0.5 sm:gap-1 text-[11.5px] sm:text-[13px] tabular-nums text-cream/85 select-none"
       aria-label={`Current time in India: ${hour}:${minute} ${period}`}
     >
       <span>{hour}</span>
       <span className="blink-colon">:</span>
       <span>{minute}</span>
-      <span className="ml-0.5 text-[10px] text-cream/55">{period} IST</span>
+      <span className="ml-0.5 text-[8.5px] sm:text-[10px] text-cream/55 font-medium">{period} IST</span>
     </div>
   );
 }

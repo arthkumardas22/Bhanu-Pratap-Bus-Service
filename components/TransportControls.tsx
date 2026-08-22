@@ -48,13 +48,13 @@ export default function TransportControls({
   size = "sm",
 }: TransportControlsProps) {
   const btn =
-    "flex items-center justify-center rounded-full text-cream/85 transition hover:text-cream hover:bg-white/10 active:scale-90";
-  const smallBtn = `${btn} h-11 w-11`;
+    "flex items-center justify-center rounded-full text-cream/85 transition-all hover:text-cream hover:bg-white/10 active:scale-90 touch-manipulation select-none";
+  const smallBtn = `${btn} h-10 w-10 sm:h-11 sm:w-11`;
 
-  const playSize = size === "lg" ? "h-13 w-13" : "h-11 w-11";
+  const playSize = size === "lg" ? "h-12 w-12 sm:h-13 sm:w-13" : "h-10 w-10 sm:h-11 sm:w-11";
 
   return (
-    <div className="flex items-center gap-1">
+    <div className="flex items-center gap-1 sm:gap-1.5 select-none">
       <button
         type="button"
         aria-label="Previous track"
