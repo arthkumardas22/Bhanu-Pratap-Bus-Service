@@ -73,8 +73,8 @@ Ensure you have [Node.js](https://nodejs.org/) (v18.18 or later) installed on yo
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/arthkumardas22/nostalgia-truck-nextjs.git
-   cd nostalgia-truck-nextjs
+   git clone https://github.com/arthkumardas22/Bhanu-Pratap-Bus-Service.git
+   cd Bhanu-Pratap-Bus-Service
    ```
 
 2. **Install dependencies:**
