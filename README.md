@@ -1,80 +1,170 @@
-# Late Night Drive — Nostalgia Radio
+# 🚌 Bhanu Pratap Bus Service (भानु प्रताप बस सर्विस)
 
-A single-page Next.js music site styled like a late-night ride in an old
-Indian truck: transparent iOS-style glass player floating over a looping
-cinematic background video, YouTube-powered playback, a nostalgic truck
-horn, and a Spotify playlist link.
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-bhanu--pratap--bus--service.vercel.app-emerald?style=for-the-badge&logo=vercel)](https://bhanu-pratap-bus-service.vercel.app/)
+[![Next.js](https://img.shields.io/badge/Next.js-15.0-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React-19.0-61DAFB?style=for-the-badge&logo=react)](https://react.dev/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.5-3178C6?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
 
-## Getting started
+> **A nostalgic late-night Indian highway journey set inside the cabin of Bhanu Pratap Bus Service — featuring vintage 90s & 2000s Bollywood classics, aesthetic frosted-glass controls, looping cinematic cabin visuals, authentic truck horn soundboard, and spinning vinyl player.**
+
+🌐 **Live Website:** [https://bhanu-pratap-bus-service.vercel.app/](https://bhanu-pratap-bus-service.vercel.app/)
+
+---
+
+## 🌟 Overview
+
+**Bhanu Pratap Bus Service** is an ambient, aesthetic web music player inspired by long late-night highway drives through India. It captures the charm of nostalgic cassette tapes, ambient cabin lighting, illuminated windshield lettering (*"★ ऑल इण्डिया टूरिस्ट परमिट ★"*), and the golden era of 90s/2000s Bollywood melodies.
+
+Built with **Next.js 15**, **React 19**, and modern **Tailwind CSS v4**, the interface floats a glassmorphic music player over a continuous, high-definition cabin drive loop.
+
+---
+
+## ✨ Features
+
+- 🛣️ **Cinematic Highway Ambience**: Full-bleed looping driver's cabin video with subtle retro film grain and warm ambient glow.
+- 📯 **Authentic Truck Horns**: Interactive highway horn button loaded with 5 genuine pressure horn sounds, played randomly without immediate repeats.
+- 💿 **Spinning Vinyl Disc**: Realistic spinning vinyl record that rotates in sync with playback state and displays YouTube video album art.
+- 🎶 **Curated Nostalgic Playlists**: 3 distinct mood-based vibes loaded with 30 iconic 90s and 2000s Hindi songs:
+  - 🛣️ **Night Drive**: Upbeat highway romantic anthems.
+  - 📻 **Old Memories**: Soulful cassette-era golden classics.
+  - 🌙 **Late Night**: 2 AM solitude & melancholic highway melodies.
+- 🎵 **Interactive Music Controls**:
+  - Smooth seek bar with drag-to-seek support (touch & mouse friendly).
+  - Track queue modal with full song listings and metadata.
+  - Play, Pause, Next, Previous, and seamless playlist switching.
+  - YouTube IFrame integration in full compliance with embed policies.
+- 👥 **Simulated Live Highway Radio**: Real-time simulated active listener count and live highway trip clock.
+- 📱 **Responsive Glassmorphism Design**: Frosted glass dashboard with adaptive mobile and desktop layouts, safe-area viewport support, and micro-animations.
+- 🟢 **Spotify & Social Links**: Quick one-click links to the official Spotify playlist and creator's Instagram profile.
+
+---
+
+## 🎵 Playlist Catalog
+
+| Vibe | Tagline | Featured Artists & Hits | Total Tracks |
+| :--- | :--- | :--- | :---: |
+| 🛣️ **Night Drive** | *Highway Cruising • Romantic Beats* | Kumar Sanu, Alka Yagnik, Udit Narayan (*Sirf Tum, Dilwale, Mohra, Barsaat*) | 10 Tracks |
+| 📻 **Old Memories** | *Cassette Nostalgia • Golden Classics* | Anuradha Paudwal, Mohammed Aziz (*Aashiqui, Saajan, Phool Aur Kaante*) | 10 Tracks |
+| 🌙 **Late Night** | *2 AM Solitude • Deep Melodies* | Kumar Sanu, Sadhana Sargam, Kavita K. (*Deewana, Sainik, Qayamat, Saathi*) | 10 Tracks |
+
+---
+
+## 🛠️ Tech Stack
+
+- **Framework**: [Next.js 15](https://nextjs.org/) (App Router)
+- **Library**: [React 19](https://react.dev/)
+- **Language**: [TypeScript](https://www.typescriptlang.org/)
+- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/) + CSS Glassmorphism
+- **Audio & Video**: YouTube IFrame API + HTML5 Audio / Video
+- **Typography**: Google Fonts (*Inter, Kalam, Rozha One, Yatra One*)
+- **Analytics & Insights**: `@vercel/analytics` & `@vercel/speed-insights`
+- **Deployment**: [Vercel](https://vercel.com/)
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+Ensure you have [Node.js](https://nodejs.org/) (v18.18 or later) installed on your machine.
+
+### Installation
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/arthkumardas22/nostalgia-truck-nextjs.git
+   cd nostalgia-truck-nextjs
+   ```
+
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+3. **Start the local development server:**
+   ```bash
+   npm run dev
+   ```
+
+4. **Open your browser:**
+   Navigate to [http://localhost:3000](http://localhost:3000) to experience the site locally.
+
+### Production Build
 
 ```bash
-npm install
-npm run dev
+npm run build
+npm run start
 ```
 
-Open http://localhost:3000.
+---
 
-## What's already in place
-
-- `public/bg/scene-wide.mp4` + `scene-wide.webm` — your supplied truck-cabin
-  video, with the small watermark in the bottom-right corner removed, and
-  encoded as both WebM (primary) and MP4 (fallback) for broad browser
-  compatibility. It's used as a looping, muted, full-bleed background.
-- `public/bg/scene-poster.jpg` — a poster frame shown before the video
-  loads.
-
-## What you still need to add
-
-1. **Songs** — open `data/playlists.ts`. Every track is a placeholder
-   (`REPLACE_WITH_YOUTUBE_ID`). Replace `videoId` with the 11-character ID
-   from a YouTube URL for a video you have the right to use, or one
-   uploaded by the actual rights holder with embedding enabled. Adding a
-   song is a one-line change — copy a row, edit the fields.
-
-2. **Truck horn audio** — drop five MP3s into `public/horns/` named:
-   ```
-   horn-01.mp3
-   horn-02.mp3
-   horn-03.mp3
-   horn-04.mp3
-   horn-05.mp3
-   ```
-   (Filenames can be changed — just update the list in `data/playlists.ts`.)
-   Pressing the horn button plays a random clip from a shuffled bag with no
-   immediate repeats.
-
-3. **Portrait background (optional)** — only a landscape video was
-   supplied, so it's used at every screen size/orientation right now. If
-   you compose a separate portrait video later, swap `BackgroundVideo.tsx`
-   for two `<video>` elements toggled by an `(orientation: portrait)` media
-   query, mirroring how the original spec toggled `scene-wide.png` /
-   `scene-tall.png`.
-
-## Project structure
+## 📂 Project Structure
 
 ```
-app/
-  globals.css       Tailwind v4 @theme tokens, glass/grain/keyframes
-  layout.tsx         Root layout, safe-area viewport, Analytics/SpeedInsights
-  page.tsx            Assembles the page
-components/          All UI pieces, defined at module scope (never nested)
-data/playlists.ts    Track data, Spotify URL, horn file list
-lib/youtube.ts       YouTube IFrame API loader + types
-lib/types.ts         Track/Playlist types
-public/bg/            Background video + poster
-public/horns/         Truck horn audio (add your files here)
+├── app/
+│   ├── globals.css              # Tailwind v4 tokens, glass/grain styling & keyframes
+│   ├── layout.tsx               # Root layout, Google Fonts, metadata & Vercel analytics
+│   └── page.tsx                 # Main application page layout
+├── components/
+│   ├── BackgroundVideo.tsx      # Looping cinematic cabin background video
+│   ├── BusServiceLogo.tsx       # Bhanu Pratap Bus Service windshield typography
+│   ├── ClockWidget.tsx          # Real-time clock widget
+│   ├── DesktopPlayer.tsx        # Glassmorphic desktop audio player
+│   ├── MobilePlayer.tsx         # Responsive mobile player layout
+│   ├── MusicPlayer.tsx          # Core audio player orchestration & YouTube sync
+│   ├── ListenerCount.tsx        # Simulated live highway listener counter
+│   ├── PlaylistSwitcher.tsx     # Tabbed vibe switcher (Night Drive, Old Memories, Late Night)
+│   ├── SeekBar.tsx              # Interactive drag-to-seek progress bar
+│   ├── SpotifyButton.tsx        # Link to curated Spotify playlist
+│   ├── TrackListModal.tsx       # Modal popup showing full playlist songs
+│   ├── TransportControls.tsx    # Play, Pause, Next, Previous buttons
+│   ├── TruckHorn.tsx            # Multi-sample interactive truck horn player
+│   ├── Vinyl.tsx                # Spinning vinyl disc animation component
+│   └── YouTubeStage.tsx         # YouTube IFrame player integration
+├── data/
+│   └── playlists.ts             # 30 curated song metadata, video IDs & horn paths
+├── lib/
+│   ├── types.ts                 # TypeScript interfaces for tracks and playlists
+│   └── youtube.ts               # YouTube IFrame API loader utility
+└── public/
+    ├── bg/                      # Cabin video (MP4/WebM) and poster frame
+    ├── horns/                   # 5 authentic truck horn audio files (MP3)
+    └── bhanu-pratap-manthan-white.png # Bus service windshield branding logo
 ```
 
-## Notes
+---
 
-- The YouTube IFrame player renders in a small always-visible "dashboard
-  screen" panel (`YouTubeStage`) near the vinyl, in compliance with YouTube's
-  policy against hiding the player. The vinyl itself uses YouTube's own
-  hotlinked thumbnail — nothing is downloaded or re-hosted.
-- Progress polls ~2.5×/second; all player sub-components are declared at
-  module scope so the vinyl never remounts/resets its spin mid-playback.
-- Seeking uses `onPointerDown`/`onPointerMove` with `touch-none` so dragging
-  never scrolls the page.
-- `youtube_playback_error` is fired via `@vercel/analytics`'s `track()`
-  whenever a video errors out (deleted/embedding disabled), and the player
-  auto-advances to the next track.
+## 🎛️ Customization
+
+### Adding / Modifying Tracks
+Open [`data/playlists.ts`](data/playlists.ts) to edit or add new songs under `nightDrive`, `oldMemories`, or `lateNight`:
+
+```typescript
+{
+  id: "custom-id",
+  title: "Song Title",
+  artist: "Artist Name",
+  film: "Movie Name",
+  year: 1995,
+  duration: "5:30",
+  videoId: "YOUTUBE_VIDEO_ID", // 11-character YouTube video ID
+}
+```
+
+### Adding New Horn Sounds
+Place audio files in `public/horns/` and update the `hornSounds` array in [`data/playlists.ts`](data/playlists.ts).
+
+---
+
+## 👨‍💻 Creator & Credits
+
+- **Created by:** [Arth Kumar Das](https://github.com/arthkumardas22)
+- **Instagram:** [@arth_kumar_das](https://www.instagram.com/arth_kumar_das)
+- **Live Link:** [bhanu-pratap-bus-service.vercel.app](https://bhanu-pratap-bus-service.vercel.app/)
+
+---
+
+## 📄 License
+
+This project is open-source and available under the [MIT License](LICENSE).

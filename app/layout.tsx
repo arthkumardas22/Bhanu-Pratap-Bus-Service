@@ -4,9 +4,9 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Late Night Drive — Nostalgia Radio",
+  title: "Bhanu Pratap Bus Service",
   description:
-    "A quiet late-night journey through an old Indian truck cabin, with music that remembers the road.",
+    "A quiet late-night journey through Bhanu Pratap Bus Service, with music that remembers the road.",
 };
 
 export const viewport: Viewport = {
