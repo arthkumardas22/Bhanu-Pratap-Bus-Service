@@ -24,6 +24,7 @@ export default function MusicPlayer() {
   const readyRef = useRef(false);
   const pendingPlayRef = useRef(false);
   const progressTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const lastPrevPressTimeRef = useRef<number>(0);
 
   // Synchronize dynamic vibe on HTML element for whole-page CSS atmosphere
   useEffect(() => {
@@ -92,8 +93,25 @@ export default function MusicPlayer() {
   }, [goToTrack, isPlaying]);
 
   const handlePrev = useCallback(() => {
+    const p = playerRef.current;
+    const now = Date.now();
+    const currentSongTime = p?.getCurrentTime() ?? currentTime;
+    const timeSinceLastPrev = now - lastPrevPressTimeRef.current;
+
+    // If song is past the first 3 seconds and previous wasn't pressed within 2.5s, rewind to start (0s)
+    if (currentSongTime > 3 && timeSinceLastPrev > 2500) {
+      lastPrevPressTimeRef.current = now;
+      if (p && readyRef.current) {
+        p.seekTo(0, true);
+        setCurrentTime(0);
+      }
+      return;
+    }
+
+    // Otherwise, jump to the previous song
+    lastPrevPressTimeRef.current = 0;
     goToTrack(trackIndexRef.current - 1, isPlaying);
-  }, [goToTrack, isPlaying]);
+  }, [goToTrack, isPlaying, currentTime]);
 
   const handleToggle = useCallback(() => {
     const p = playerRef.current;
