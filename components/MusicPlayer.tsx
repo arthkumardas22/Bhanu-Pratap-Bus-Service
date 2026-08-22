@@ -30,6 +30,17 @@ export default function MusicPlayer() {
     document.documentElement.setAttribute("data-vibe", activePlaylist);
   }, [activePlaylist]);
 
+  // Broadcast player playing state to live listener count widget
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(
+        new CustomEvent("bhanu:player_state", {
+          detail: { isPlaying },
+        })
+      );
+    }
+  }, [isPlaying]);
+
   // Keep latest playlist/index/isPlaying in refs so YT event callbacks (bound once)
   // always act on current state without being recreated per render.
   const activePlaylistRef = useRef(activePlaylist);

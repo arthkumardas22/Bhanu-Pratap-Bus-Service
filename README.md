@@ -34,7 +34,7 @@ Built with **Next.js 15**, **React 19**, and modern **Tailwind CSS v4**, the int
   - Track queue modal with full song listings and metadata.
   - Play, Pause, Next, Previous, and seamless playlist switching.
   - YouTube IFrame integration in full compliance with embed policies.
-- 👥 **Simulated Live Highway Radio**: Real-time simulated active listener count and live highway trip clock.
+- 👥 **Real-Time Live Highway Radio Listener Counter**: Live active listener count powered by a Next.js API heartbeat engine tracking real-time concurrent listeners and highway radio stream status.
 - 📱 **Responsive Glassmorphism Design**: Frosted glass dashboard with adaptive mobile and desktop layouts, safe-area viewport support, and micro-animations.
 - 🟢 **Spotify & Social Links**: Quick one-click links to the official Spotify playlist and creator's Instagram profile.
 
@@ -103,6 +103,8 @@ npm run start
 
 ```
 ├── app/
+│   ├── api/
+│   │   └── listeners/route.ts   # Real-time live listener heartbeat & session tracking API
 │   ├── globals.css              # Tailwind v4 tokens, glass/grain styling & keyframes
 │   ├── layout.tsx               # Root layout, Google Fonts, metadata & Vercel analytics
 │   └── page.tsx                 # Main application page layout

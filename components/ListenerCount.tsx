@@ -1,67 +1,129 @@
 "use client";
 
-import { useEffect, useState } from "react";
-
-function getBaseCountForCurrentHour(): number {
-  const hour = new Date().getHours();
-  // Peak Indian late night radio listening between 9 PM (21) and 3 AM (3)
-  if (hour >= 21 || hour < 3) {
-    return 1380 + (hour === 23 || hour === 0 ? 140 : 80);
-  } else if (hour >= 18 && hour < 21) {
-    return 1120;
-  } else if (hour >= 6 && hour < 12) {
-    return 740;
-  } else {
-    return 950;
-  }
-}
+import { useEffect, useState, useRef } from "react";
 
 export default function ListenerCount() {
-  const [count, setCount] = useState<number>(1280);
+  const [count, setCount] = useState<number>(1);
   const [tripNumber, setTripNumber] = useState<number>(4829);
+  const sessionIdRef = useRef<string>("");
+  const isPlayingRef = useRef<boolean>(false);
 
   useEffect(() => {
-    // Initial calculation based on actual time
-    const base = getBaseCountForCurrentHour();
-    const variance = Math.floor(Math.random() * 30);
-    setCount(base + variance);
+    // Generate or retrieve session ID for this browser tab
+    let sid = "";
+    try {
+      sid = sessionStorage.getItem("bhanu_listener_id") || "";
+      if (!sid) {
+        sid = `listener_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+        sessionStorage.setItem("bhanu_listener_id", sid);
+      }
+    } catch {
+      sid = `listener_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+    }
+    sessionIdRef.current = sid;
 
     // Persistent trip counter in localStorage
     try {
-      const stored = localStorage.getItem("nostalgia_truck_trips");
-      const currentTrips = stored ? parseInt(stored, 10) : 4820;
+      const stored = localStorage.getItem("bhanu_bus_trips");
+      const currentTrips = stored ? parseInt(stored, 10) : 4829;
       const nextTrips = currentTrips + 1;
-      localStorage.setItem("nostalgia_truck_trips", nextTrips.toString());
+      localStorage.setItem("bhanu_bus_trips", nextTrips.toString());
       setTripNumber(nextTrips);
     } catch {
       // ignore
     }
 
-    // Natural minor fluctuation every 6-8 seconds
-    const interval = setInterval(() => {
-      setCount((prev) => {
-        const delta = Math.floor(Math.random() * 3) - 1; // -1, 0, or +1
-        return prev + delta;
-      });
-    }, 7000);
+    const sendHeartbeat = async (action: "heartbeat" | "leave" = "heartbeat") => {
+      try {
+        const payload = JSON.stringify({
+          sessionId: sessionIdRef.current,
+          isPlaying: isPlayingRef.current,
+          action,
+        });
 
-    return () => clearInterval(interval);
+        if (action === "leave" && typeof navigator !== "undefined" && navigator.sendBeacon) {
+          const blob = new Blob([payload], { type: "application/json" });
+          navigator.sendBeacon("/api/listeners", blob);
+          return;
+        }
+
+        const res = await fetch("/api/listeners", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: payload,
+          keepalive: action === "leave",
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          if (typeof data.liveCount === "number") {
+            setCount(data.liveCount);
+          }
+        }
+      } catch (err) {
+        console.warn("Live listener heartbeat error:", err);
+      }
+    };
+
+    // Initial heartbeat
+    sendHeartbeat("heartbeat");
+
+    // Regular heartbeat interval every 5 seconds
+    const interval = setInterval(() => {
+      if (document.visibilityState === "visible") {
+        sendHeartbeat("heartbeat");
+      }
+    }, 5000);
+
+    // Handle visibility change
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible") {
+        sendHeartbeat("heartbeat");
+      }
+    };
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    // Listen for music player state changes
+    const handlePlayerState = (e: Event) => {
+      const customEvent = e as CustomEvent<{ isPlaying: boolean }>;
+      const playing = Boolean(customEvent.detail?.isPlaying);
+      isPlayingRef.current = playing;
+      sendHeartbeat("heartbeat");
+    };
+    window.addEventListener("bhanu:player_state", handlePlayerState);
+
+    // Clean up on tab close
+    const handleUnload = () => {
+      sendHeartbeat("leave");
+    };
+    window.addEventListener("beforeunload", handleUnload);
+    window.addEventListener("pagehide", handleUnload);
+
+    return () => {
+      clearInterval(interval);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      window.removeEventListener("bhanu:player_state", handlePlayerState);
+      window.removeEventListener("beforeunload", handleUnload);
+      window.removeEventListener("pagehide", handleUnload);
+      sendHeartbeat("leave");
+    };
   }, []);
 
   return (
     <div
-      className="glass glass-edge flex items-center gap-2 rounded-full px-3 py-1 text-[11.5px] text-cream/75 shadow-sm"
-      title={`Trip #${tripNumber.toLocaleString("en-IN")} • Real-time highway radio stream`}
+      className="glass glass-edge flex items-center gap-2 rounded-full px-3 py-1 text-[11.5px] text-cream/75 shadow-sm transition-all"
+      title={`Trip #${tripNumber.toLocaleString("en-IN")} • Real-time live highway listener stream`}
     >
       <div className="relative flex h-2 w-2 items-center justify-center">
         <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
         <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.9)]" />
       </div>
-      <span className="tabular-nums font-semibold text-cream">
+      <span className="tabular-nums font-semibold text-cream transition-all duration-300">
         {count.toLocaleString("en-IN")}
       </span>
-      <span className="text-white/60">listening</span>
+      <span className="text-white/60">
+        {count === 1 ? "listener live" : "listeners live"}
+      </span>
     </div>
   );
 }
-
