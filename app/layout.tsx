@@ -187,6 +187,9 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        {/* High-priority LCP preloads */}
+        <link rel="preload" as="image" href="/bhanu-pratap-manthan-white.png" fetchPriority="high" />
+        <link rel="preload" as="image" href="/bg/scene-poster.jpg" fetchPriority="high" />
         <link
           href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Kalam:wght@400;700&family=Rozha+One&family=Yatra+One&display=swap"
           rel="stylesheet"

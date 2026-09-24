@@ -122,7 +122,7 @@ function ListenerCount() {
 
   return (
     <div
-      className="glass glass-edge flex items-center gap-2 rounded-full px-3 py-1 text-[11.5px] text-cream/75 shadow-sm transition-all"
+      className="glass glass-edge flex items-center justify-center gap-2 rounded-full px-3 py-1 text-[11.5px] text-cream/75 shadow-sm transition-all min-w-[110px] sm:min-w-[125px]"
       title={`Trip #${tripNumber.toLocaleString("en-IN")} • Real-time live highway listener stream`}
     >
       <div className="relative flex h-2 w-2 items-center justify-center">

@@ -41,7 +41,10 @@ function MobilePlayer({
   onOpenQueue,
 }: MobilePlayerProps) {
   return (
-    <div className="sm:hidden flex w-full flex-col gap-2 select-none">
+    <div
+      className="sm:hidden flex w-full flex-col gap-2 select-none"
+      style={{ contain: "layout style" }}
+    >
       {/* Top vibe pills & queue button */}
       <div className="flex items-center justify-between gap-1 px-0.5">
         <PlaylistSwitcher

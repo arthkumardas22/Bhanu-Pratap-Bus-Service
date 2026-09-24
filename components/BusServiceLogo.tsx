@@ -4,7 +4,7 @@ import Image from "next/image";
 
 export default function BusServiceLogo() {
   return (
-    <header className="relative z-10 my-auto flex flex-col items-center justify-center text-center select-none pointer-events-none px-3 py-1">
+    <header className="relative z-10 my-auto flex min-h-[110px] sm:min-h-[160px] flex-col items-center justify-center text-center select-none pointer-events-none px-3 py-1">
       {/* Decorative Top Flourish */}
       <div className="flex items-center gap-1.5 sm:gap-2 text-white/80 text-[9px] sm:text-[11px] font-semibold tracking-widest uppercase mb-0.5 sm:mb-1 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
         <span className="h-[1px] w-4 sm:w-10 bg-gradient-to-r from-transparent to-white/60" />
@@ -14,7 +14,7 @@ export default function BusServiceLogo() {
         <span className="h-[1px] w-4 sm:w-10 bg-gradient-to-l from-transparent to-white/60" />
       </div>
 
-      {/* Main Hindi Logo with Semantic H1 for Top SEO Ranking */}
+      {/* Main Hindi Logo with Semantic H1 for Top SEO Ranking and Zero CLS */}
       <h1 className="relative flex items-center justify-center py-0.5 sm:py-1 m-0">
         <Image
           src="/bhanu-pratap-manthan-white.png"
@@ -22,6 +22,8 @@ export default function BusServiceLogo() {
           width={420}
           height={174}
           priority
+          fetchPriority="high"
+          style={{ aspectRatio: "420 / 174" }}
           className="h-auto w-48 xs:w-56 sm:w-72 md:w-84 max-w-[82vw] max-h-[15vh] sm:max-h-none object-contain drop-shadow-[0_4px_16px_rgba(0,0,0,0.85)] transition-transform duration-500 hover:scale-[1.02]"
         />
         <span className="sr-only">

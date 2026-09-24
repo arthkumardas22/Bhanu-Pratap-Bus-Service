@@ -43,7 +43,10 @@ function DesktopPlayer({
   const currentMeta = playlistMeta.find((p) => p.key === activePlaylist);
 
   return (
-    <div className="hidden sm:flex w-full max-w-xl flex-col gap-2.5">
+    <div
+      className="hidden sm:flex w-full max-w-xl flex-col gap-2.5"
+      style={{ contain: "layout style" }}
+    >
       <div className="flex items-center justify-between px-1">
         <PlaylistSwitcher
           meta={playlistMeta}

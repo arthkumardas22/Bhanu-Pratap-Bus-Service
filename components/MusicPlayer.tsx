@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, startTransition } from "react";
 import { track as trackAnalyticsEvent } from "@vercel/analytics";
 import { playlists, playlistMeta } from "@/data/playlists";
 import type { PlaylistKey } from "@/lib/types";
@@ -146,10 +146,12 @@ export default function MusicPlayer() {
   const handleSelectPlaylist = useCallback(
     (key: PlaylistKey) => {
       if (key === activePlaylistRef.current) return;
-      setActivePlaylist(key);
-      setTrackIndex(0);
-      setCurrentTime(0);
-      setDuration(0);
+      startTransition(() => {
+        setActivePlaylist(key);
+        setTrackIndex(0);
+        setCurrentTime(0);
+        setDuration(0);
+      });
       const p = playerRef.current;
       if (p && readyRef.current) {
         const videoId = playlists[key][0].videoId;
@@ -237,12 +239,21 @@ export default function MusicPlayer() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleOpenQueue = useCallback(() => setIsQueueOpen(true), []);
-  const handleCloseQueue = useCallback(() => setIsQueueOpen(false), []);
+  const handleOpenQueue = useCallback(() => {
+    startTransition(() => {
+      setIsQueueOpen(true);
+    });
+  }, []);
+
+  const handleCloseQueue = useCallback(() => {
+    startTransition(() => {
+      setIsQueueOpen(false);
+    });
+  }, []);
 
   return (
     <div className="flex w-full flex-col items-center gap-2 px-4">
-      <div className="flex w-full max-w-xl justify-center items-center px-1">
+      <div className="flex h-7 min-h-[28px] w-full max-w-xl justify-center items-center px-1">
         {/* Active vibe tagline */}
         <div className="text-[12px] font-medium text-white/75 flex items-center gap-1.5 animate-pulse glass glass-edge px-3.5 py-1 rounded-full shadow-sm">
           <span>{currentMeta.icon}</span>

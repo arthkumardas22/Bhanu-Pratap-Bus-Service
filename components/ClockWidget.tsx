@@ -26,21 +26,23 @@ function ClockWidget() {
     return () => clearInterval(id);
   }, []);
 
-  if (!now) {
-    return <div className="text-[13px] tabular-nums text-cream/80" aria-hidden />;
-  }
-
-  const { hour, minute, period } = splitParts(now);
+  const content = now ? splitParts(now) : null;
 
   return (
     <div
-      className="flex items-baseline gap-0.5 sm:gap-1 text-[11.5px] sm:text-[13px] tabular-nums text-cream/85 select-none"
-      aria-label={`Current time in India: ${hour}:${minute} ${period}`}
+      className="flex items-baseline gap-0.5 sm:gap-1 text-[11.5px] sm:text-[13px] tabular-nums text-cream/85 select-none min-w-[72px] sm:min-w-[85px] h-5"
+      aria-label={content ? `Current time in India: ${content.hour}:${content.minute} ${content.period}` : "Current time in India"}
     >
-      <span>{hour}</span>
-      <span className="blink-colon">:</span>
-      <span>{minute}</span>
-      <span className="ml-0.5 text-[8.5px] sm:text-[10px] text-cream/55 font-medium">{period} IST</span>
+      {content ? (
+        <>
+          <span>{content.hour}</span>
+          <span className="blink-colon">:</span>
+          <span>{content.minute}</span>
+          <span className="ml-0.5 text-[8.5px] sm:text-[10px] text-cream/55 font-medium">{content.period} IST</span>
+        </>
+      ) : (
+        <span className="invisible select-none">12:00 AM IST</span>
+      )}
     </div>
   );
 }

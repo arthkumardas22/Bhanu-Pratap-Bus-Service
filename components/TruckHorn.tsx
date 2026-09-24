@@ -85,25 +85,26 @@ export default function TruckHorn() {
       }
     }
 
-    const sound = drawNext();
-    let audio = audioPoolRef.current.get(sound);
+    // Schedule audio playback non-blockingly so visual paint happens in <8ms
+    setTimeout(() => {
+      const sound = drawNext();
+      let audio = audioPoolRef.current.get(sound);
 
-    if (!audio) {
-      audio = new Audio(sound);
-      audioPoolRef.current.set(sound, audio);
-    }
-
-    try {
-      audio.currentTime = 0;
-      const playPromise = audio.play();
-      if (playPromise !== undefined) {
-        playPromise.catch(() => {
-          // Fallback if browser requires interaction
-        });
+      if (!audio) {
+        audio = new Audio(sound);
+        audioPoolRef.current.set(sound, audio);
       }
-    } catch {
-      // ignore
-    }
+
+      try {
+        audio.currentTime = 0;
+        const playPromise = audio.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(() => {});
+        }
+      } catch {
+        // ignore
+      }
+    }, 0);
 
     setTimeout(() => setPressed(false), 200);
   }, [drawNext]);
