@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, memo } from "react";
 
-export default function ListenerCount() {
+function ListenerCount() {
   const [count, setCount] = useState<number>(1);
   const [tripNumber, setTripNumber] = useState<number>(4829);
   const sessionIdRef = useRef<string>("");
@@ -33,7 +33,11 @@ export default function ListenerCount() {
       // ignore
     }
 
+    let inFlight = false;
+    let debounceTimer: ReturnType<typeof setTimeout> | null = null;
+
     const sendHeartbeat = async (action: "heartbeat" | "leave" = "heartbeat") => {
+      if (action === "heartbeat" && inFlight) return;
       try {
         const payload = JSON.stringify({
           sessionId: sessionIdRef.current,
@@ -47,6 +51,7 @@ export default function ListenerCount() {
           return;
         }
 
+        inFlight = true;
         const res = await fetch("/api/listeners", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -62,18 +67,20 @@ export default function ListenerCount() {
         }
       } catch (err) {
         console.warn("Live listener heartbeat error:", err);
+      } finally {
+        inFlight = false;
       }
     };
 
     // Initial heartbeat
     sendHeartbeat("heartbeat");
 
-    // Regular heartbeat interval every 5 seconds
+    // Efficient heartbeat interval every 12 seconds
     const interval = setInterval(() => {
       if (document.visibilityState === "visible") {
         sendHeartbeat("heartbeat");
       }
-    }, 5000);
+    }, 12000);
 
     // Handle visibility change
     const handleVisibilityChange = () => {
@@ -83,12 +90,16 @@ export default function ListenerCount() {
     };
     document.addEventListener("visibilitychange", handleVisibilityChange);
 
-    // Listen for music player state changes
+    // Listen for music player state changes with slight debounce
     const handlePlayerState = (e: Event) => {
       const customEvent = e as CustomEvent<{ isPlaying: boolean }>;
       const playing = Boolean(customEvent.detail?.isPlaying);
+      if (isPlayingRef.current === playing) return;
       isPlayingRef.current = playing;
-      sendHeartbeat("heartbeat");
+      if (debounceTimer) clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => {
+        sendHeartbeat("heartbeat");
+      }, 500);
     };
     window.addEventListener("bhanu:player_state", handlePlayerState);
 
@@ -127,3 +138,5 @@ export default function ListenerCount() {
     </div>
   );
 }
+
+export default memo(ListenerCount);

@@ -31,7 +31,10 @@ export default function BackgroundVideo({ vibe = "nightDrive" }: BackgroundVideo
         loop
         muted
         playsInline
-        preload="auto"
+        preload="metadata"
+        disablePictureInPicture
+        // @ts-expect-error standard HTML video attribute
+        disableremoteplayback=""
         aria-hidden
       >
         <source src="/bg/scene-wide.webm" type="video/webm" />
@@ -44,14 +47,14 @@ export default function BackgroundVideo({ vibe = "nightDrive" }: BackgroundVideo
         aria-hidden
       />
 
-      {/* Dynamic Vibe Ambient Color Glow Overlay */}
+      {/* Dynamic Vibe Ambient Color Glow Overlay (Hardware-accelerated alpha blending, no mix-blend cost) */}
       <div
-        className={`pointer-events-none fixed inset-0 z-[1] transition-all duration-1000 ${
+        className={`pointer-events-none fixed inset-0 z-[1] transition-opacity duration-700 ${
           vibe === "nightDrive"
-            ? "bg-[radial-gradient(ellipse_at_50%_90%,rgba(224,164,88,0.18),transparent_65%)]"
+            ? "bg-[radial-gradient(ellipse_at_50%_90%,rgba(224,164,88,0.18),transparent_65%)] opacity-100"
             : vibe === "oldMemories"
-            ? "bg-[radial-gradient(ellipse_at_50%_75%,rgba(245,158,11,0.22),transparent_70%)] mix-blend-color"
-            : "bg-[radial-gradient(ellipse_at_50%_80%,rgba(96,165,250,0.24),transparent_65%)]"
+            ? "bg-[radial-gradient(ellipse_at_50%_75%,rgba(245,158,11,0.22),rgba(30,15,5,0.4)_80%)] opacity-100"
+            : "bg-[radial-gradient(ellipse_at_50%_80%,rgba(96,165,250,0.22),rgba(5,12,30,0.5)_80%)] opacity-100"
         }`}
         aria-hidden
       />

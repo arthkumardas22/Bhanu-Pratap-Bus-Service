@@ -1,3 +1,4 @@
+import { memo } from "react";
 import type { PlaylistKey, PlaylistMeta } from "@/lib/types";
 
 interface PlaylistSwitcherProps {
@@ -7,7 +8,7 @@ interface PlaylistSwitcherProps {
   className?: string;
 }
 
-export default function PlaylistSwitcher({
+function PlaylistSwitcher({
   meta,
   active,
   onSelect,
@@ -44,3 +45,4 @@ export default function PlaylistSwitcher({
   );
 }
 
+export default memo(PlaylistSwitcher);

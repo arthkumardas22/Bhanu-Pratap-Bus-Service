@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, memo } from "react";
 
 const formatter = new Intl.DateTimeFormat("en-IN", {
   timeZone: "Asia/Kolkata",
@@ -16,12 +16,13 @@ function splitParts(date: Date) {
   return { hour, minute, period };
 }
 
-export default function ClockWidget() {
+function ClockWidget() {
   const [now, setNow] = useState<Date | null>(null);
 
   useEffect(() => {
     setNow(new Date());
-    const id = setInterval(() => setNow(new Date()), 1000);
+    // Checking every 10 seconds keeps minute precision while avoiding 1s wakeups
+    const id = setInterval(() => setNow(new Date()), 10000);
     return () => clearInterval(id);
   }, []);
 
@@ -43,3 +44,5 @@ export default function ClockWidget() {
     </div>
   );
 }
+
+export default memo(ClockWidget);

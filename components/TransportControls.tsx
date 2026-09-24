@@ -1,4 +1,4 @@
-"use client";
+import { memo } from "react";
 
 interface TransportControlsProps {
   isPlaying: boolean;
@@ -40,7 +40,7 @@ function PauseIcon() {
   );
 }
 
-export default function TransportControls({
+function TransportControls({
   isPlaying,
   onPrev,
   onToggle,
@@ -85,3 +85,5 @@ export default function TransportControls({
     </div>
   );
 }
+
+export default memo(TransportControls);

@@ -22,7 +22,7 @@ export default function BusServiceLogo() {
           width={420}
           height={174}
           priority
-          className="h-auto w-48 xs:w-56 sm:w-72 md:w-84 max-w-[82vw] max-h-[15vh] sm:max-h-none object-contain drop-shadow-[0_4px_16px_rgba(0,0,0,0.95)] filter drop-shadow-[0_0_20px_rgba(255,255,255,0.4)] transition-all duration-700 hover:scale-[1.02]"
+          className="h-auto w-48 xs:w-56 sm:w-72 md:w-84 max-w-[82vw] max-h-[15vh] sm:max-h-none object-contain drop-shadow-[0_4px_16px_rgba(0,0,0,0.85)] transition-transform duration-500 hover:scale-[1.02]"
         />
       </div>
 

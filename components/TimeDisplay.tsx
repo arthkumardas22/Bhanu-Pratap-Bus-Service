@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 function formatTime(seconds: number): string {
   if (!Number.isFinite(seconds) || seconds < 0) return "0:00";
   const m = Math.floor(seconds / 60);
@@ -11,7 +13,7 @@ interface TimeDisplayProps {
   className?: string;
 }
 
-export default function TimeDisplay({
+function TimeDisplay({
   currentTime,
   duration,
   className = "",
@@ -24,3 +26,11 @@ export default function TimeDisplay({
     </div>
   );
 }
+
+export default memo(TimeDisplay, (prev, next) => {
+  return (
+    Math.floor(prev.currentTime) === Math.floor(next.currentTime) &&
+    Math.floor(prev.duration) === Math.floor(next.duration) &&
+    prev.className === next.className
+  );
+});

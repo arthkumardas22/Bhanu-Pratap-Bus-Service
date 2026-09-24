@@ -11,7 +11,7 @@ interface ListenerSession {
 // In-memory active sessions store
 // Node.js process / warm serverless instance scope
 const activeSessions = new Map<string, ListenerSession>();
-const HEARTBEAT_TIMEOUT_MS = 15000; // 15 seconds expiration window
+const HEARTBEAT_TIMEOUT_MS = 35000; // 35 seconds expiration window
 
 function cleanExpiredSessions() {
   const now = Date.now();

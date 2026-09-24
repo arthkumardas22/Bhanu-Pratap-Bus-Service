@@ -1,3 +1,4 @@
+import { memo } from "react";
 import type { PlaylistKey, PlaylistMeta, Track } from "@/lib/types";
 import Vinyl from "./Vinyl";
 import TrackInfo from "./TrackInfo";
@@ -23,7 +24,7 @@ interface DesktopPlayerProps {
   onOpenQueue: () => void;
 }
 
-export default function DesktopPlayer({
+function DesktopPlayer({
   track,
   isPlaying,
   currentTime,
@@ -88,4 +89,6 @@ export default function DesktopPlayer({
     </div>
   );
 }
+
+export default memo(DesktopPlayer);
 

@@ -26,22 +26,36 @@ function TruckIcon() {
 export default function TruckHorn() {
   const bagRef = useRef<string[]>(shuffle(hornSounds));
   const lastPlayedRef = useRef<string | null>(null);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const audioPoolRef = useRef<Map<string, HTMLAudioElement>>(new Map());
   const [pressed, setPressed] = useState(false);
   const [showHonk, setShowHonk] = useState(false);
+  const honkTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Pre-initialize audio element for low-latency mobile playback
+  // Pre-instantiate and buffer all 5 horns for instant 0ms response
   useEffect(() => {
     try {
-      audioRef.current = new Audio();
+      hornSounds.forEach((src) => {
+        const audio = new Audio(src);
+        audio.preload = "auto";
+        audioPoolRef.current.set(src, audio);
+      });
     } catch {
-      // ignore
+      // Audio element not supported in current environment
     }
+
+    return () => {
+      audioPoolRef.current.forEach((audio) => {
+        audio.pause();
+        audio.src = "";
+      });
+      audioPoolRef.current.clear();
+      if (honkTimeoutRef.current) clearTimeout(honkTimeoutRef.current);
+    };
   }, []);
 
   const drawNext = useCallback(() => {
     if (bagRef.current.length === 0) {
-      let next = shuffle(hornSounds);
+      const next = shuffle(hornSounds);
       if (next[0] === lastPlayedRef.current && next.length > 1) {
         [next[0], next[1]] = [next[1], next[0]];
       }
@@ -53,21 +67,45 @@ export default function TruckHorn() {
   }, []);
 
   const handlePress = useCallback(() => {
-    const sound = drawNext();
-
-    if (!audioRef.current) {
-      audioRef.current = new Audio();
-    }
-    audioRef.current.src = sound;
-    audioRef.current.currentTime = 0;
-    audioRef.current.play().catch(() => {
-      // Autoplay / touch interaction fallback
-    });
-
+    // Instant visual feedback without waiting for audio thread
     setPressed(true);
     setShowHonk(true);
-    window.setTimeout(() => setPressed(false), 220);
-    window.setTimeout(() => setShowHonk(false), 650);
+
+    if (honkTimeoutRef.current) clearTimeout(honkTimeoutRef.current);
+    honkTimeoutRef.current = setTimeout(() => {
+      setShowHonk(false);
+    }, 650);
+
+    // Haptic feedback if available on mobile
+    if (typeof navigator !== "undefined" && navigator.vibrate) {
+      try {
+        navigator.vibrate(40);
+      } catch {
+        // ignore
+      }
+    }
+
+    const sound = drawNext();
+    let audio = audioPoolRef.current.get(sound);
+
+    if (!audio) {
+      audio = new Audio(sound);
+      audioPoolRef.current.set(sound, audio);
+    }
+
+    try {
+      audio.currentTime = 0;
+      const playPromise = audio.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          // Fallback if browser requires interaction
+        });
+      }
+    } catch {
+      // ignore
+    }
+
+    setTimeout(() => setPressed(false), 200);
   }, [drawNext]);
 
   return (

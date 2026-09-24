@@ -1,5 +1,6 @@
 "use client";
 
+import { memo } from "react";
 import type { Track, PlaylistMeta } from "@/lib/types";
 
 interface TrackListModalProps {
@@ -12,7 +13,7 @@ interface TrackListModalProps {
   onSelectTrack: (index: number) => void;
 }
 
-export default function TrackListModal({
+function TrackListModal({
   isOpen,
   onClose,
   tracks,
@@ -110,3 +111,5 @@ export default function TrackListModal({
     </div>
   );
 }
+
+export default memo(TrackListModal);

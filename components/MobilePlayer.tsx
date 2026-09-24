@@ -1,3 +1,4 @@
+import { memo } from "react";
 import type { PlaylistKey, PlaylistMeta, Track } from "@/lib/types";
 import Vinyl from "./Vinyl";
 import TrackInfo from "./TrackInfo";
@@ -23,7 +24,7 @@ interface MobilePlayerProps {
   onOpenQueue: () => void;
 }
 
-export default function MobilePlayer({
+function MobilePlayer({
   track,
   isPlaying,
   currentTime,
@@ -90,3 +91,5 @@ export default function MobilePlayer({
     </div>
   );
 }
+
+export default memo(MobilePlayer);

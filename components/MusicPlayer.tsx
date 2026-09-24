@@ -54,15 +54,24 @@ export default function MusicPlayer() {
   const currentTrack = playlists[activePlaylist][trackIndex];
   const currentMeta = playlistMeta.find((p) => p.key === activePlaylist) || playlistMeta[0];
 
+  const durationRef = useRef(0);
+
   const startProgressLoop = useCallback(() => {
     if (progressTimerRef.current) return;
     progressTimerRef.current = setInterval(() => {
       const p = playerRef.current;
       if (!p) return;
-      setCurrentTime(p.getCurrentTime());
-      const d = p.getDuration();
-      if (d && Number.isFinite(d)) setDuration(d);
-    }, PROGRESS_INTERVAL_MS);
+      const t = p.getCurrentTime();
+      if (typeof t === "number") setCurrentTime(t);
+
+      if (durationRef.current <= 0) {
+        const d = p.getDuration();
+        if (d && Number.isFinite(d) && d > 0) {
+          durationRef.current = d;
+          setDuration(d);
+        }
+      }
+    }, 500);
   }, []);
 
   const stopProgressLoop = useCallback(() => {
@@ -78,6 +87,7 @@ export default function MusicPlayer() {
     setTrackIndex(wrapped);
     setCurrentTime(0);
     setDuration(0);
+    durationRef.current = 0;
     const p = playerRef.current;
     if (!p || !readyRef.current) return;
     const videoId = list[wrapped].videoId;
@@ -227,6 +237,9 @@ export default function MusicPlayer() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const handleOpenQueue = useCallback(() => setIsQueueOpen(true), []);
+  const handleCloseQueue = useCallback(() => setIsQueueOpen(false), []);
+
   return (
     <div className="flex w-full flex-col items-center gap-2 px-4">
       <div className="flex w-full max-w-xl justify-center items-center px-1">
@@ -238,7 +251,6 @@ export default function MusicPlayer() {
       </div>
 
       <YouTubeStage />
-
 
       <DesktopPlayer
         track={currentTrack}
@@ -254,7 +266,7 @@ export default function MusicPlayer() {
         onPrev={handlePrev}
         onToggle={handleToggle}
         onNext={handleNext}
-        onOpenQueue={() => setIsQueueOpen(true)}
+        onOpenQueue={handleOpenQueue}
       />
 
       <MobilePlayer
@@ -271,13 +283,13 @@ export default function MusicPlayer() {
         onPrev={handlePrev}
         onToggle={handleToggle}
         onNext={handleNext}
-        onOpenQueue={() => setIsQueueOpen(true)}
+        onOpenQueue={handleOpenQueue}
       />
 
       {/* Track List Modal */}
       <TrackListModal
         isOpen={isQueueOpen}
-        onClose={() => setIsQueueOpen(false)}
+        onClose={handleCloseQueue}
         tracks={playlists[activePlaylist]}
         currentTrackIndex={trackIndex}
         activePlaylistMeta={currentMeta}

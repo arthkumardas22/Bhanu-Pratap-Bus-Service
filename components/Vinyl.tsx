@@ -1,5 +1,4 @@
-"use client";
-
+import { memo } from "react";
 import Image from "next/image";
 
 interface VinylProps {
@@ -9,7 +8,7 @@ interface VinylProps {
   size: number;
 }
 
-export default function Vinyl({ videoId, title, isPlaying, size }: VinylProps) {
+function Vinyl({ videoId, title, isPlaying, size }: VinylProps) {
   const spindleSize = Math.max(10, Math.round(size * 0.18));
 
   return (
@@ -47,3 +46,5 @@ export default function Vinyl({ videoId, title, isPlaying, size }: VinylProps) {
     </div>
   );
 }
+
+export default memo(Vinyl);

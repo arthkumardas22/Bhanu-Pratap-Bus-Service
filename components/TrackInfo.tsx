@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 interface TrackInfoProps {
   title: string;
   artist: string;
@@ -6,7 +8,7 @@ interface TrackInfoProps {
   className?: string;
 }
 
-export default function TrackInfo({
+function TrackInfo({
   title,
   artist,
   film,
@@ -32,3 +34,4 @@ export default function TrackInfo({
   );
 }
 
+export default memo(TrackInfo);
