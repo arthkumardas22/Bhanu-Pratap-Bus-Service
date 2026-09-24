@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://bhanu-pratap-bus-service.vercel.app/</loc>
+    <lastmod>2026-09-24</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://bhanu-pratap-bus-service.vercel.app/bhanu-pratap-manthan-white.png</image:loc>
+      <image:title>भानु प्रताप बस सर्विस - Bhanu Pratap Bus Service</image:title>
+      <image:caption>90s Bollywood Night Drive Radio and Indian Highway Cabin Ambience</image:caption>
+    </image:image>
+  </url>
+</urlset>

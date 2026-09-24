@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+
+Sitemap: https://bhanu-pratap-bus-service.vercel.app/sitemap.xml
+Host: https://bhanu-pratap-bus-service.vercel.app

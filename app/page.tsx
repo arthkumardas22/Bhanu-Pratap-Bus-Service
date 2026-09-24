@@ -9,6 +9,24 @@ import SpotifyButton from "@/components/SpotifyButton";
 export default function Page() {
   return (
     <main className="relative flex min-h-dvh h-dvh flex-1 flex-col items-center justify-between overflow-hidden select-none">
+      {/* Search Engine Optimization semantic descriptive content for search crawlers */}
+      <section className="sr-only" aria-label="About Bhanu Pratap Bus Service">
+        <h2>Bhanu Pratap Bus Service - भानु प्रताप बस सर्विस</h2>
+        <p>
+          Welcome to Bhanu Pratap Bus Service, a nostalgic online Indian highway journey streaming 90s and 2000s Bollywood romantic melodies.
+          Listen to iconic songs by Kumar Sanu, Alka Yagnik, Udit Narayan, Sadhana Sargam, and Anuradha Paudwal.
+          Features realistic bus cabin ambience, spinning vinyl record player, authentic highway truck horns soundboard, and live listener counts.
+        </p>
+        <nav aria-label="Playlist Vibes">
+          <h3>Vibe Playlists</h3>
+          <ul>
+            <li>Night Drive: Upbeat 90s highway romantic anthems for long night drives.</li>
+            <li>Old Memories: Soulful cassette-era golden classics from Aashiqui, Saajan, and Dilwale.</li>
+            <li>Late Night: 2 AM solitude and deep melancholic road trip melodies.</li>
+          </ul>
+        </nav>
+      </section>
+
       <BackgroundVideo />
       <GrainOverlay />
       <TopRow />

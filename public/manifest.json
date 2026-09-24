@@ -1,0 +1,16 @@
+{
+  "name": "Bhanu Pratap Bus Service",
+  "short_name": "Bhanu Pratap",
+  "description": "A nostalgic late-night Indian highway journey set inside the cabin of Bhanu Pratap Bus Service with vintage 90s Bollywood classics.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#05070a",
+  "theme_color": "#0c0a08",
+  "icons": [
+    {
+      "src": "/bhanu-pratap-manthan-white.png",
+      "sizes": "420x174",
+      "type": "image/png"
+    }
+  ]
+}
